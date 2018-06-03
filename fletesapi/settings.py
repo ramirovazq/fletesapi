@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6da#b+p8tyq$(($3rocu49p9r*y!w(v^6x%ersgm@*a(a=zl6z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['.ramirovaz.webfactional.com']
+ALLOWED_HOSTS = ['.ramirovaz.webfactional.com', '127.0.0.1']
 ADMINS = (('Ramiro B.', 'ramirovazquez95@gmail.com'))
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -117,9 +119,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-#STATIC_URL = '/static/'
-STATIC_URL = 'http://staticfletes.ramirovaz.webfactional.com/'
-STATIC_ROOT = '/home/ramirovaz/webapps/static_django_fletes/'
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+if DEBUG:
+    STATIC_URL = '/static/'
+else:
+    STATIC_URL = 'http://staticfletes.ramirovaz.webfactional.com/'
+    STATIC_ROOT = '/home/ramirovaz/webapps/static_django_fletes/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+
 
 
 EMAIL_HOST = 'smtp.webfaction.com'
