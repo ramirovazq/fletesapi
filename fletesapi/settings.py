@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6da#b+p8tyq$(($3rocu49p9r*y!w(v^6x%ersgm@*a(a=zl6z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['.ramirovaz.webfactional.com', '127.0.0.1']
 ADMINS = (('Ramiro B.', 'ramirovazquez95@gmail.com'))
@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 
@@ -122,13 +122,16 @@ USE_TZ = True
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 if DEBUG:
+    MEDIA_URL = '/media/'
     STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+    MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 else:
+    MEDIA_URL = 'http://mediafletes.ramirovaz.webfactional.com/'
     STATIC_URL = 'http://staticfletes.ramirovaz.webfactional.com/'
+    MEDIA_ROOT = '/home/ramirovaz/webapps/media_fletes_django_api/'
     STATIC_ROOT = '/home/ramirovaz/webapps/static_django_fletes/'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
 
 
