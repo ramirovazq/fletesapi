@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6da#b+p8tyq$(($3rocu49p9r*y!w(v^6x%ersgm@*a(a=zl6z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ['DEBUG']
 
 ALLOWED_HOSTS = ['.ramirovaz.webfactional.com', '127.0.0.1']
 ADMINS = (('Ramiro B.', 'ramirovazquez95@gmail.com'))
@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'api'
+    'api',
+    'almacen',
+    'imagekit'
 ]
 
 MIDDLEWARE = [
@@ -135,8 +137,13 @@ else:
 
 
 
-EMAIL_HOST = 'smtp.webfaction.com'
-EMAIL_HOST_USER = 'fletes_ramiro'
-EMAIL_HOST_PASSWORD = 'holamundoramiroramiro'
-SERVER_EMAIL = 'webmaster@fletesexpress.com.mx'
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+SERVER_EMAIL = os.environ['SERVER_EMAIL']
 
+
+URL_API_AUTHENTICATE=os.environ['URL_API_AUTHENTICATE']
+CONNECT_DB=os.environ['CONNECT_DB']
+CONNECT_LOGIN=os.environ['CONNECT_LOGIN']
+CONNECT_PASSWORD=os.environ['CONNECT_PASSWORD']
