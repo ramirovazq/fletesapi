@@ -129,11 +129,10 @@ if DEBUG:
     STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
     MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 else:
-    MEDIA_URL = 'http://mediafletes.ramirovaz.webfactional.com/'
-    STATIC_URL = 'http://staticfletes.ramirovaz.webfactional.com/'
-    MEDIA_ROOT = '/home/ramirovaz/webapps/media_fletes_django_api/'
-    STATIC_ROOT = '/home/ramirovaz/webapps/static_django_fletes/'
-
+    MEDIA_URL = os.environ["MEDIA_URL"]
+    STATIC_URL = os.environ["STATIC_URL"] 
+    MEDIA_ROOT = os.environ["MEDIA_ROOT"]
+    STATIC_ROOT = os.environ["STATIC_ROOT"]
 
 
 
