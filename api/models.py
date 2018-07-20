@@ -27,3 +27,19 @@ class PhotoReact(models.Model):
 
     def __str__(self):
       return '%s %s' % (self.id, self.name)
+
+
+class LimeDemo(models.Model):
+
+    name = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    api_consulting = models.CharField(max_length=100, blank=True, null=True)
+    token = models.CharField(max_length=30, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+      return '%s created' % (self.created)
