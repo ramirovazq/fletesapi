@@ -40,18 +40,25 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'almacen',
-    'imagekit'
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = (
+    'ycconsultores.com',
+    'fletes.ramirovaz.webfactional.com',
+    '127.0.0.1:9000'
+)
 
 ROOT_URLCONF = 'fletesapi.urls'
 
