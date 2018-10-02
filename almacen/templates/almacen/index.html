@@ -1,8 +1,55 @@
+{% extends 'almacen/base.html' %}
+{% load tz %}
 
-{{context}}
+{% block content %}
+  {% if resp_token.token %}
 
-{% if context %}
-    {{context}}
-{% else %}
-    <p>No tiene context.</p>
-{% endif %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Fecha Creacion</th>
+        <th scope="col">Fecha Programada</th>
+        <th scope="col">Fecha Hecho</th>
+        <th scope="col">Ultima actualización</th>
+        <th scope="col">Picking</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Producto</th>
+        <th scope="col">DE</th>
+        <th scope="col">PARA</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Compañia</th>
+        <th scope="col">Propietario</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for movimiento in resp_movimientos.movimientos %}
+            <tr>
+              <td>{{ movimiento.create_date }} </td>
+              <td>{% if movimiento.response_picking %} {{ movimiento.response_picking.0.scheduled_date }} {% endif %}</td>
+              <td>{% if movimiento.response_picking %} {{ movimiento.response_picking.0.date_done }} {% endif %} </td>
+              <td>{{ movimiento.write_date }} </td>
+              <td>{{ movimiento.picking_id.1}}</td>
+              <td>{{ movimiento.qty_done }}</td>
+              <td>{{ movimiento.display_name }}</td>
+              <td>{% if movimiento.response_picking %} {{ movimiento.response_picking.0.location_id.1 }} {% else %} {{ movimiento.location_id.1 }} {% endif %}</td>
+              <td>{% if movimiento.response_picking %} {{ movimiento.response_picking.0.location_dest_id.1 }} {% else %} {{ movimiento.location_dest_id.1 }} {% endif %}</td>
+              <td>{{ movimiento.state }}</td>
+              <td>{{ movimiento.response_picking.0.partner_id.1}}</td>
+              <td>{% if movimiento.response_picking %}                   
+                    <ul class="list-group">
+                      <li class="list-group-item">Propietario: {{ movimiento.response_picking.0.owner_id.1 }} </li>
+                      <li class="list-group-item">Detalle: {{movimiento.owner_id.1}}  </li>
+                    </ul>
+                  {% else %} 
+                    {{ movimiento.owner_id }} 
+                  {% endif %}
+              </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+      <p>Sin conexion.</p>
+  {% endif %}
+{% endblock %}
