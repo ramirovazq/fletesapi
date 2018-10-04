@@ -3,6 +3,7 @@ from django.shortcuts import render
 from almacen.utils import dame_token, dame_movimientos, agrega_picking, guardo_movimientos
 from almacen.models import MovimientoAlmacen
 from datetime import datetime
+import csv
 
 def sincroniza(request):
     
@@ -21,6 +22,11 @@ def movimientos(request):
 
     movimientos = MovimientoAlmacen.objects.all()
 
+    exporta = request.GET.get('exporta', False)
+
+    if exporta in ["True", "true", "TRUE"]:
+        exporta = True
+
     fecha_programada_inicio = request.GET.get('fecha_programada_inicio', '')
     fecha_programada_fin = request.GET.get('fecha_programada_fin', '')
     compania = request.GET.get('compania', '')
@@ -38,7 +44,29 @@ def movimientos(request):
     if detalle:
       movimientos = movimientos.filter(detalle__icontains=detalle)
 
-
+    if exporta == True:
+        # Create the HttpResponse object with the appropriate CSV header.
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="export.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['Fecha Creacion', 'Fecha Programada', 'Fecha Hecho', 'Ultima Actualizacion', 'Picking', 'Cantidad', 'Producto', 'De', 'Para','estado', 'Compania', 'Propietario', 'Detalle'])
+        for movimiento in movimientos:
+              renglon = []
+              renglon.append(movimiento.fecha_creacion)
+              renglon.append(movimiento.fecha_programada)
+              renglon.append(movimiento.fecha_hecho)
+              renglon.append(movimiento.ultima_actualizacion)
+              renglon.append(movimiento.picking)
+              renglon.append(movimiento.cantidad) 
+              renglon.append(movimiento.producto) 
+              renglon.append(movimiento.de)
+              renglon.append(movimiento.para)
+              renglon.append(movimiento.estado) 
+              renglon.append(movimiento.compania)        
+              renglon.append(movimiento.propietario)
+              renglon.append(movimiento.detalle)
+              writer.writerow(renglon)
+        return response
 
     context["movimientos"] = movimientos
     return render(request, 'almacen/movimientos.html', context)
