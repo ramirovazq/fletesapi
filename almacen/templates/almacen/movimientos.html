@@ -7,33 +7,27 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Fecha Creacion</th>
-        <th scope="col">Fecha Programada</th>
-        <th scope="col">Fecha Hecho</th>
-        <th scope="col">Ultima actualización</th>
         <th scope="col">Picking</th>
-        <th scope="col">Cantidad</th>
         <th scope="col">Producto</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Tractor ó Compañía</th>
+        <th scope="col">Propietario</th>
+
+        <th scope="col">Fecha Creacion</th>
+        <th scope="col">Ultima actualización</th>        
+        <th scope="col">Fecha Programada</th>
+
         <th scope="col">DE</th>
         <th scope="col">PARA</th>
         <th scope="col">Estado</th>
-        <th scope="col">Compañia</th>
-        <th scope="col">Propietario</th>
       </tr>
     </thead>
     <tbody>
         {% for movimiento in movimientos %}
             <tr>
-              <td>{{ movimiento.fecha_creacion }}</td>
-              <td>{{ movimiento.fecha_programada }}</td>
-              <td>{{ movimiento.fecha_hecho }} </td>
-              <td>{{ movimiento.ultima_actualizacion }}</td>
               <td>{{ movimiento.picking }}</td>
-              <td>{{ movimiento.cantidad }}</td>
               <td>{{ movimiento.producto }}</td>
-              <td>{{ movimiento.de }} </td>
-              <td>{{ movimiento.para }} </td>
-              <td>{{ movimiento.estado }}</td>
+              <td>{{ movimiento.cantidad }}</td>
               <td>{{ movimiento.compania}}</td>
               <td>
                     <ul class="list-group">
@@ -41,6 +35,14 @@
                       <li class="list-group-item">Detalle: {{movimiento.detalle }}  </li>
                     </ul>
               </td>
+              
+              <td>{{ movimiento.fecha_creacion }}</td>
+              <td>{{ movimiento.ultima_actualizacion }}</td>              
+              <td>{{ movimiento.fecha_programada }}</td>
+
+              <td>{{ movimiento.de }} </td>
+              <td>{{ movimiento.para }} </td>
+              <td>{{ movimiento.estado }}</td>
             </tr>
         {% endfor %}
     </tbody>
