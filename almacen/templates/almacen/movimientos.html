@@ -1,9 +1,125 @@
 {% extends 'almacen/base.html' %}
 {% load tz %}
 
+        {% block javascript_top %}
+          <script>
+          $( function() {
+
+            $( "#id_fecha_creacion_inicio" ).datepicker({dateFormat: 'dd-mm-yy'});
+            $( "#id_fecha_creacion_fin" ).datepicker({dateFormat: 'dd-mm-yy'});
+            $( "#id_ultima_actualizacion_inicio" ).datepicker({dateFormat: 'dd-mm-yy'});
+            $( "#id_ultima_actualizacion_fin" ).datepicker({dateFormat: 'dd-mm-yy'});
+            $( "#id_fecha_programada_inicio" ).datepicker({dateFormat: 'dd-mm-yy'});
+            $( "#id_fecha_programada_fin" ).datepicker({dateFormat: 'dd-mm-yy'});
+            $( "#boton_limpiar" ).click(function(){
+                $('#filter_form').trigger("reset");
+                window.location = "{% url 'movimientos' %}";
+            });
+
+
+          });
+          </script>
+        {% endblock %}
+
+
 {% block content %}
+
+<form action="{% url 'movimientos' %}" method="post" id="filter_form">
+    {% csrf_token %}
+
+    {{ form.errors }}
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{form.picking.errors}}
+          <label for="{{form.picking.id_for_label}}">Picking</label>
+            {{form.picking}}
+        </div>
+        <div class="form-group col-md-6">
+          {{form.producto.errors}}
+          <label for="{{form.producto.id_for_label}}">Producto</label>
+            {{form.producto}}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{form.compania.errors}}
+        <label for="{{form.compania.id_for_label}}">Tractor o Compañía</label>
+        {{form.compania}}
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{form.propietario.errors}}
+          <label for="{{form.propietario.id_for_label}}">Propietario</label>
+            {{form.propietario}}
+        </div>
+        <div class="form-group col-md-6">
+          {{form.detalle.errors}}
+          <label for="{{form.detalle.id_for_label}}">Detalle</label>
+            {{form.detalle}}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+           {{form.fecha_creacion_inicio.errors}}
+           <label for="{{form.fecha_creacion_inicio.id_for_label}}">Fecha creación inicio:</label>
+           {{form.fecha_creacion_inicio}}
+        </div>
+        <div class="form-group col-md-6">
+           {{form.fecha_creacion_fin.errors}}
+           <label for="{{form.fecha_creacion_fin.id_for_label}}">Fecha creación fin:</label>
+           {{form.fecha_creacion_fin}}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+           {{form.ultima_actualizacion_inicio.errors}}
+           <label for="{{form.ultima_actualizacion_inicio.id_for_label}}">Última actualización inicio:</label>
+           {{form.ultima_actualizacion_inicio}}
+        </div>
+        <div class="form-group col-md-6">
+           {{form.ultima_actualizacion_fin.errors}}
+           <label for="{{form.ultima_actualizacion_fin.id_for_label}}">Última actualización fin:</label>
+           {{form.ultima_actualizacion_fin}}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+           {{form.fecha_programada_inicio.errors}}
+           <label for="{{form.fecha_programada_inicio.id_for_label}}">Fecha programada inicio:</label>
+           {{form.fecha_programada_inicio}}
+        </div>
+        <div class="form-group col-md-6">
+           {{form.fecha_programada_fin.errors}}
+           <label for="{{form.fecha_programada_fin.id_for_label}}">Fecha programada fin:</label>
+           {{form.fecha_programada_fin}}
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="gridCheck">
+          <label class="form-check-label" for="gridCheck">
+            Exporta CSV
+          </label>
+        </div>
+      </div>
+
+    <input type="submit" value="Filtrar" class="btn btn-primary">
+    <input type="button" value="Limpiar" class="btn btn-secondary" id="boton_limpiar">
+
+</form>
+
   {% if movimientos %}
   <h3>Número de Movimientos: {{movimientos.count}}</h3>
+
+<p></p>
+
   <table class="table">
     <thead>
       <tr>
