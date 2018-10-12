@@ -116,3 +116,17 @@ class FilterForm(forms.Form):
                 }
     ))
 
+    exporta_xls = forms.BooleanField(
+                required=False,
+                label='Exporta XLS', 
+    )
+
+
+
+    exporta = forms.BooleanField(
+                required=False,
+            label='Exporta CSV', 
+    )
+
+
+

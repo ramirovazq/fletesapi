@@ -94,11 +94,33 @@ def movimientos(request):
 
 
     exporta = request.POST.get('exporta', False)
+    exporta_xls = request.POST.get('exporta_xls', False)
 
-    if exporta in ["True", "true", "TRUE"]:
-        exporta = True
+    if exporta_xls == 'on':
+        import xlwt
 
-    if exporta == True:
+        book = xlwt.Workbook(encoding="utf-8")
+        sheet1 = book.add_sheet("PySheet1")
+     
+        cols = ["A", "B", "C", "D", "E"]
+        txt = "Row %s, Col %s"
+     
+        for num in range(5):
+            row = sheet1.row(num)
+            for index, col in enumerate(cols):
+                value = txt % (num+1, col)
+                row.write(index, value)
+     
+        #book.save("test.xls")
+
+
+        response = HttpResponse(content_type="application/ms-excel")
+        response['Content-Disposition'] = 'attachment; filename="export.xls"'
+        book.save(response)
+        return response
+
+
+    if exporta == 'on':
         # Create the HttpResponse object with the appropriate CSV header.
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="export.csv"'
