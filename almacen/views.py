@@ -6,6 +6,7 @@ from django.conf import settings
 from almacen.utils import dame_token, dame_movimientos, agrega_picking, guardo_movimientos
 from almacen.models import MovimientoAlmacen
 from almacen.forms import FilterForm
+from almacen.render_to_XLS_util import *
 
 from datetime import datetime
 from pytz import timezone
@@ -97,28 +98,11 @@ def movimientos(request):
     exporta_xls = request.POST.get('exporta_xls', False)
 
     if exporta_xls == 'on':
-        import xlwt
 
-        book = xlwt.Workbook(encoding="utf-8")
-        sheet1 = book.add_sheet("PySheet1")
-     
-        cols = ["A", "B", "C", "D", "E"]
-        txt = "Row %s, Col %s"
-     
-        for num in range(5):
-            row = sheet1.row(num)
-            for index, col in enumerate(cols):
-                value = txt % (num+1, col)
-                row.write(index, value)
-     
-        #book.save("test.xls")
-
-
-        response = HttpResponse(content_type="application/ms-excel")
-        response['Content-Disposition'] = 'attachment; filename="export.xls"'
-        book.save(response)
-        return response
-
+        return render_to_xls(
+            queryset=movimientos,
+            filename="export.xls"
+        )                
 
     if exporta == 'on':
         # Create the HttpResponse object with the appropriate CSV header.
