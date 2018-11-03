@@ -50,6 +50,15 @@ def dame_picking(picking_id, token):
     return response
 
 
+def dame_product(product_id, token):
+  url = settings.URL_BASE_API + "/read/product.template/{}".format(product_id)
+  response = requests.post(url, data={'db':settings.CONNECT_DB,'token':token})
+  if response.ok:
+    return response.json()
+  else:
+    return response
+
+
 
 def agrega_picking(diccionario, token):
   diccionario_new = {"movimientos": []}
@@ -72,11 +81,30 @@ def agrega_picking(diccionario, token):
   return diccionario_new 
 
 
+def agrega_detalle_producto(diccionario, token):
+  diccionario_new = {"producto_detalle": []}
+  if 'movimientos' in diccionario.keys():
+    for x in diccionario['movimientos']:
+      if x['product_id']:
+        product_id_post = x['product_id'][0]
+        response_json = dame_product(product_id_post, token)
+        x['response_product_detail'] = response_json
+        diccionario_new['producto_detalle'].append(x)
 
-def guardo_movimientos(diccionario):
+      else:
+        diccionario_new['producto_detalle'].append(x)
+  return diccionario_new 
+
+
+
+def guardo_movimientos(diccionario, diccionariodos):
   contador_nuevo = 0
   contador_existia = 0
-  for movimiento in diccionario['movimientos']:
+  for movimiento, productodetalle in zip(diccionario['movimientos'], diccionariodos['producto_detalle']):
+
+    print("----")
+    print(movimiento['id'] == productodetalle['id'])
+
     dicc_default = {
       "id_api": movimiento['id'],
       "fecha_creacion": datetime.strptime(movimiento['create_date'] + '+0000', '%Y-%m-%d %H:%M:%S%z'),##+5 es el buenos
@@ -92,6 +120,11 @@ def guardo_movimientos(diccionario):
       #"compania": movimiento['response_picking'][0]['partner_id'][1]
       #"detalle": movimiento['']
     }
+
+    if productodetalle["response_product_detail"]:
+      dicc_default["precio_costo_unitario"] = productodetalle["response_product_detail"][0]["standard_price"]
+      dicc_default["precio_venta_unitario"] = productodetalle["response_product_detail"][0]["list_price"]
+      dicc_default["precio_costo_total"] = productodetalle["response_product_detail"][0]["standard_price"] * movimiento["qty_done"]
 
     if movimiento["picking_id"]:
       dicc_default["picking"]= movimiento["picking_id"][1]

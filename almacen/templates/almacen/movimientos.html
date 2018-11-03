@@ -138,6 +138,9 @@
         <th scope="col">Picking</th>
         <th scope="col">Producto</th>
         <th scope="col">Cantidad</th>
+        <th scope="col">Precio Unitario</th>
+        <th scope="col">Precio Venta</th>
+        <th scope="col">Precio Total</th>
         <th scope="col">Tractor ó Compañía</th>
         <th scope="col">Propietario</th>
 
@@ -156,6 +159,9 @@
               <td>{{ movimiento.picking }}</td>
               <td>{{ movimiento.producto }}</td>
               <td>{{ movimiento.cantidad }}</td>
+              <td>{{ movimiento.precio_costo_unitario }}</td>
+              <td>{{ movimiento.precio_venta_unitario }}</td>
+              <td>{{ movimiento.precio_costo_total }}</td>
               <td>{{ movimiento.compania}}</td>
               <td>
                     <ul class="list-group">

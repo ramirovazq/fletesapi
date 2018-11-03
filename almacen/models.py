@@ -18,6 +18,9 @@ class MovimientoAlmacen(models.Model):
         null=True,
         blank=True
         )
+    precio_costo_unitario = models.DecimalField(default=0, max_digits=12, decimal_places=3)
+    precio_venta_unitario = models.DecimalField(default=0, max_digits=12, decimal_places=3)
+    precio_costo_total = models.DecimalField(default=0, max_digits=12, decimal_places=3)
     de = models.CharField(
         max_length=300,
         null=True,
@@ -50,6 +53,7 @@ class MovimientoAlmacen(models.Model):
         null=True,
         blank=True
         )
+
 
 
     def __str__(self):

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
-from almacen.utils import dame_token, dame_movimientos, agrega_picking, guardo_movimientos
+from almacen.utils import dame_token, dame_movimientos, agrega_picking, guardo_movimientos, agrega_detalle_producto
 from almacen.models import MovimientoAlmacen
 from almacen.forms import FilterForm
 from almacen.render_to_XLS_util import *
@@ -19,8 +19,9 @@ def sincroniza(request):
     context["resp_token"] = dame_token()
     token = context["resp_token"]["token"]
     movimientos = dame_movimientos(token)
+    context["resp_detalleproductos"] = agrega_detalle_producto(movimientos, token)
     context["resp_movimientos"] = agrega_picking(movimientos, token)
-    context["numero_nuevos"], context["numero_existia"]  = guardo_movimientos(context["resp_movimientos"])
+    context["numero_nuevos"], context["numero_existia"]  = guardo_movimientos(context["resp_movimientos"], context["resp_detalleproductos"])
 
     return render(request, 'almacen/index.html', context)
 
